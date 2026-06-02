@@ -56,12 +56,33 @@ if (contactForm) {
     btn.style.opacity = '0.7';
     btn.disabled = true;
 
+    // show inline confirmation and allow the default mailto action to proceed
+    const resultEl = document.getElementById('contact-result');
+    if (resultEl) {
+      resultEl.style.display = 'block';
+    }
+
     setTimeout(() => {
-      alert('Thank you! Your message has been sent successfully.');
       btn.textContent = originalBtnText;
       btn.style.opacity = '1';
       btn.disabled = false;
       contactForm.reset();
-    }, 2000);
+      if (resultEl) {
+        resultEl.style.display = 'none';
+      }
+    }, 2500);
   });
 }
+
+// Make project cards clickable (open the Github link in the project-link)
+document.querySelectorAll('.project-card').forEach((card) => {
+  card.style.cursor = 'pointer';
+  card.addEventListener('click', (e) => {
+    // if the click was on an actual link, let it handle
+    if (e.target.closest('a')) return;
+    const link = card.querySelector('.project-link a');
+    if (link && link.href) {
+      window.open(link.href, '_blank', 'noopener');
+    }
+  });
+});
